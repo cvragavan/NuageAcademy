@@ -1,0 +1,10 @@
+#!/bin/bash
+yum update -y
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+cd /var/www/html
+echo "<html><h1> Hello, Welcome to Nuage Academy </h1></html>" > index.html
+curl http://169.254.169.254/latest/meta-data/local-ipv4 >> index.html
+EC2_AVAIL_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+echo "<h1>Hello Nuage Academy from $(hostname -f) in AZ $EC2_AVAIL_ZONE</h1>" > /var/www/html/index.html
